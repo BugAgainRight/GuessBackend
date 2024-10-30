@@ -48,7 +48,7 @@ namespace BackendDemo;
                     IsSettled = false // 初始为未结算
                 };
                 user.Guesses.Add(guess);
-
+                Storage.SaveChanges();
                 response.Success = true;
                 response.Message = "竞猜成功。";
             }
@@ -60,5 +60,23 @@ namespace BackendDemo;
 
             return response;
         }
+    public GuessList List([FromUri] string userID)
+    {
+        var guessList = new GuessList();
+        var user = Storage.Instance.Users.FirstOrDefault(u => u.Account == userID);
+        if (user == null)
+        {
+                return guessList;
+        }
+        guessList.Guesses = user.Guesses.Select(g => new GuessData
+        {
+            EventID = g.EventID,
+            GuessWinner = g.GuessWinner,
+            IsSettled = g.IsSettled
+        }).ToList();
+        
+        return guessList;
     }
+}
+
 

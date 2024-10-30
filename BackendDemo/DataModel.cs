@@ -66,6 +66,7 @@ public class GuessList{
 public class GuessData{
     public string EventID;
     public int GuessWinner;
+    public bool IsSettled;
 }
 
 [Serializable]
