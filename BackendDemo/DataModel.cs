@@ -11,6 +11,7 @@ public class RegisterData{
 [Serializable]
 public class StatusData{
     public bool Success;
+    public string Message; // 错误信息，如果Success为false，则在这里返回原因，例如“当前身份证已被注册！”
 }
 
 [Serializable]
@@ -64,4 +65,10 @@ public class GuessList{
 public class GuessData{
     public string EventID;
     public int GuessWinner;
+}
+
+[Serializable]
+public class TimeData
+{
+    public DateTime ServerTime;
 }
