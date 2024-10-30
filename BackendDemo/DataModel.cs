@@ -36,6 +36,7 @@ public class UserInfo{
 
 [Serializable]
 public class UpdateInfoRequest{
+    public string Account;
     public string Name;
     public string PhoneNumber;
     public string Address;
