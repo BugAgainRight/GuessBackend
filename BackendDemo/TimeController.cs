@@ -26,4 +26,9 @@ public class TimeController : ApiController
 
         return response; 
     }
+    public TimeData Get() { 
+        var response = new TimeData();
+        response.ServerTime = Storage.Instance.SimulatedTime;
+        return response;
+    }
 }
