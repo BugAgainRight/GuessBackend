@@ -44,7 +44,7 @@ public class UpdateInfoRequest{
 
 [Serializable]
 public class EventList{
-    public List<Event> events { get; set; } = new List<Event>();
+    public List<Event> Events = new List<Event>();
 }
 
 [Serializable]

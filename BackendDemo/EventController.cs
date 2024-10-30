@@ -14,9 +14,9 @@ public class EventController : ApiController
             string json = File.ReadAllText(path);
             var eventList  = JsonConvert.DeserializeObject<EventList>(json)!;
 
-            if (eventList.events != null)
+            if (eventList.Events != null)
             {
-                foreach (var ev in eventList.events)
+                foreach (var ev in eventList.Events)
                 {
                     if (Storage.Instance.SimulatedTime < ev.EndGuessTime)
                     {
