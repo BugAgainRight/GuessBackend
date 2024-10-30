@@ -33,6 +33,7 @@ namespace BackendDemo
         {
             public string EventID;
             public int GuessWinner;
+            public bool IsSettled;
         }
 
         public static Data Instance;
