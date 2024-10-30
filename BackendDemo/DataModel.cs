@@ -70,6 +70,13 @@ public class GuessData{
 }
 
 [Serializable]
+public class EventGuessData
+{
+    public int[] GuessCount;    // 当前比赛全服 猜A赢的总人数 和 猜B赢的总人数 （数组，2个元素）
+    public int UserGuess;       // 当前用户的猜测选择，未猜测=-1，猜A=0，猜B=1
+}
+
+[Serializable]
 public class TimeData
 {
     public DateTime ServerTime;

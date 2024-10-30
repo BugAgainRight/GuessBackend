@@ -77,6 +77,56 @@ namespace BackendDemo;
         
         return guessList;
     }
+
+    public EventGuessData GetEventGuess([FromUri] string account, [FromUri] string eventID)
+    {
+        var eventGuessData = new EventGuessData
+        {
+            GuessCount = new int[2] { 0, 0 }, // [猜A人数, 猜B人数]
+            UserGuess = -1 // 默认值表示未猜测
+        };
+
+        var user = Storage.Instance.Users.FirstOrDefault(u => u.Account == account);
+        if (user != null)
+        {
+            var userGuess = user.Guesses.FirstOrDefault(g => g.EventID == eventID);
+            if (userGuess != null)
+            {
+                eventGuessData.UserGuess = userGuess.GuessWinner; 
+            }
+        }
+
+        string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "MatchData.json");
+        var json = File.ReadAllText(path);
+        var eventList = JsonConvert.DeserializeObject<EventList>(json)!;
+
+        // 统计猜A和猜B的人数
+        var match = eventList.Events.FirstOrDefault(e => e.ID == eventID);
+        if (match != null)
+        {
+            foreach (var  users in Storage.Instance.Users)
+            {
+                foreach (var guess in users.Guesses)
+                {
+                    if (guess.EventID == eventID)
+                    {
+                        if (guess.GuessWinner == 0) // 猜A
+                        {
+                            eventGuessData.GuessCount[0]++;
+                        }
+                        else if (guess.GuessWinner == 1) // 猜B
+                        {
+                            eventGuessData.GuessCount[1]++;
+                        }
+                    }
+                }
+            }
+        }
+
+        return eventGuessData;
+    }
+
+
 }
 
 
