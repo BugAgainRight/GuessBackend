@@ -43,6 +43,33 @@ namespace BackendDemo
                 Success = true
             });
         }
+        [HttpPost]
+        [Route("api/user/login")]
+        public IHttpActionResult Login([FromBody] LoginData loginData)
+        {
+            if (loginData == null)
+            {
+                return BadRequest("无效数据");
+            }
 
+            //检查用户信息是否匹配
+            var user = Storage.Instance.Users.FirstOrDefault(u => u.Account == loginData.Account && u.Password == loginData.Password);
+
+            if (user == null)
+            {
+                return Ok(new LoginResponse
+                {
+                    Success = false,
+                    Message = "账号或密码错误！"
+                });
+            }
+
+            return Ok(new LoginResponse
+            {
+                ID = user.IDNumber,
+                Success = true,
+                Message = "登录成功！"
+            });
+        }
     }
 }
