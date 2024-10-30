@@ -19,7 +19,7 @@ public class TimeController : ApiController
             string json = File.ReadAllText(path);
             var eventList = JsonConvert.DeserializeObject<EventList>(json)!;
             //遍历所有赛事,检查竞猜是否需要结算
-            foreach (var match in eventList.events) {
+            foreach (var match in eventList.Events) {
                 if (Storage.Instance.SimulatedTime >= match.EndGuessTime && match.Winner != -1)
                 {
                     List<Storage.User> correctUsers = new();
