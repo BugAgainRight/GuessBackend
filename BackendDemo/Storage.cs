@@ -13,6 +13,7 @@ namespace BackendDemo
         public class Data
         {
             public List<User> Users = new();
+            public DateTime SimulatedTime;
         }
 
         [Serializable]
