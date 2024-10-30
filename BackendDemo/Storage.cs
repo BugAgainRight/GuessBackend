@@ -25,6 +25,7 @@ namespace BackendDemo
             public string Name;
             public string PhoneNumber;
             public string Address;
+            public double Points;
             public List<Guess> Guesses = new();
         }
 
