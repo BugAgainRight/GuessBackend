@@ -24,7 +24,8 @@ namespace BackendDemo
             {
                 return Ok(new StatusData
                 {
-                    Success = false
+                    Success = false,
+                    Message = "当前身份已被注册！"
                 });
             }
             //注册新用户
@@ -40,7 +41,8 @@ namespace BackendDemo
 
             return Ok(new StatusData
             {
-                Success = true
+                Success = true,
+                Message = "注册成功！"
             });
         }
         [HttpPost]
