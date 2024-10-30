@@ -22,6 +22,9 @@ namespace BackendDemo
             public string Account;
             public string Password;
             public string IDNumber;
+            public string Name;
+            public string PhoneNumber;
+            public string Address;
             public List<Guess> Guesses = new();
         }
 
