@@ -32,8 +32,15 @@ namespace BackendDemo;
                     return response;
                 }
 
+                if (Storage.Instance.SimulatedTime < match.StartGuessTime)
+                {
+                    response.Success = false;
+                    response.Message = "竞猜尚未开始";
+                    return response;
+                }
+
                 // 检查竞猜是否已经结算
-                if (match.Winner != -1)
+                if (Storage.Instance.SimulatedTime >= match.EventTime)
                 {
                     response.Success = false;
                     response.Message = "竞猜已经结束";
@@ -60,6 +67,8 @@ namespace BackendDemo;
 
             return response;
         }
+
+    [HttpGet]
     public GuessList List([FromUri] string userID)
     {
         var guessList = new GuessList();
@@ -78,7 +87,8 @@ namespace BackendDemo;
         return guessList;
     }
 
-    public EventGuessData GetEventGuess([FromUri] string account, [FromUri] string eventID)
+    [HttpGet]
+    public EventGuessData Event([FromUri] string account, [FromUri] string eventID)
     {
         var eventGuessData = new EventGuessData
         {
