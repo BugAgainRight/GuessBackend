@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 namespace BackendDemo
 {
-    public class UserController : ApiController
+    public partial class UserController : ApiController
     {
         [HttpPost]
         [Route("api/user/register")]

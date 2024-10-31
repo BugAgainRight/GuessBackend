@@ -10,7 +10,7 @@ using static BackendDemo.Storage;
 namespace BackendDemo
 {
 
-    public class UserInfoController : ApiController
+    public partial class UserController : ApiController
     {
 
         [HttpGet]
