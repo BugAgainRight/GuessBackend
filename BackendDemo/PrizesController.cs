@@ -17,7 +17,7 @@ namespace BackendDemo
  
         [HttpGet]
         [Route("api/prizes/info")]
-        public IHttpActionResult GetPrizeList(string account)
+        public IHttpActionResult Info([FromUri] string account)
         {
             // 检查用户是否存在  
             var user = Storage.Instance.Users.FirstOrDefault(u => u.Account == account);
@@ -48,7 +48,7 @@ namespace BackendDemo
 
         [HttpGet]
         [Route("api/prizes/redeem")]
-        public IHttpActionResult RedeemPrize(string account, string id)
+        public IHttpActionResult Redeem([FromUri] string account, [FromUri] string id)
         {
             var prizeStatus = new PrizeStatusData();
 
