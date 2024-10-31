@@ -23,7 +23,8 @@ namespace BackendDemo
                 {
                     Name = user.Name,
                     PhoneNumber = user.PhoneNumber,
-                    Address = user.Address
+                    Address = user.Address,
+                    Points = user.Points
                 };
 
                 return response;

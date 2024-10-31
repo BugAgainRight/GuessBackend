@@ -32,6 +32,7 @@ public class UserInfo{
     public string Name;
     public string PhoneNumber;
     public string Address;
+    public double Points;
 }
 
 [Serializable]

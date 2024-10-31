@@ -16,12 +16,22 @@ namespace BackendDemo
             {
                 return BadRequest("无效数据");
             }
-            if(Storage.Instance.Users.Any(u => u.IDNumber == registerData.IDNumber))
+
+            if (Storage.Instance.Users.Any(u => u.Account == registerData.Account))
             {
                 return Ok(new StatusData
                 {
                     Success = false,
-                    Message = "当前身份已被注册！"
+                    Message = "已有其他用户使用这个用户名了，换个用户名吧。"
+                });
+            }
+
+            if (Storage.Instance.Users.Any(u => u.IDNumber == registerData.IDNumber))
+            {
+                return Ok(new StatusData
+                {
+                    Success = false,
+                    Message = "当前身份证已被注册！"
                 });
             }
             //注册新用户
@@ -29,7 +39,9 @@ namespace BackendDemo
             {
                 Account = registerData.Account,
                 Password = registerData.Password,
-                IDNumber = registerData.IDNumber
+                IDNumber = registerData.IDNumber,
+                Points = 100.0,
+                Name = "用户" + registerData.Account // 默认名称
             };
 
             Storage.Instance.Users.Add(newUser);
