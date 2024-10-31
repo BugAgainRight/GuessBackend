@@ -55,5 +55,41 @@ namespace BackendDemo
         {
             File.WriteAllText("userdata.json", JsonConvert.SerializeObject(Instance));
         }
+
+        //增加对prize的读取写入
+        [Serializable]
+        public class Prize
+        {
+            public string ID;
+            public string Name;
+            public int Stock;
+            public double PointsRequired;
+            public bool Redeemed;
+        }
+
+        [Serializable]
+        public class PrizeList
+        {
+            public List<Prize> Prizes = new();
+        }
+
+        public static PrizeList PrizeData;
+
+        public static void LoadPrizes()
+        {
+            if (File.Exists("PrizeData.json"))
+            {
+                PrizeData = JsonConvert.DeserializeObject<PrizeList>(File.ReadAllText("PrizeData.json"))!;
+            }
+            else
+            {
+                PrizeData = new PrizeList(); // 如果文件不存在，创建一个新的奖品列表  
+            }
+        }
+
+        public static void SavePrizes()
+        {
+            File.WriteAllText("PrizeData.json", JsonConvert.SerializeObject(PrizeData));
+        }
     }
 }
