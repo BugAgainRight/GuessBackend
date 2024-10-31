@@ -7,7 +7,7 @@ using System.Web.Http.SelfHost;
 Storage.LoadFromFile();
 
 // 这个类的东西都不用改，放着不动就好
-var config = new HttpSelfHostConfiguration("http://localhost:7595");
+var config = new HttpSelfHostConfiguration("http://localhost:8633");
 config.EnableCors();
 config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
 config.Formatters.XmlFormatter.SupportedMediaTypes.Clear();

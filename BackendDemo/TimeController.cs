@@ -25,13 +25,16 @@ public class TimeController : ApiController
                     List<Storage.User> correctUsers = new();
                     int incorrectGuessCount = 0;
                     //遍历所有用户,计算竞猜结果
+                    Dictionary<Storage.User, double> initialPointsMap = new();
                     foreach (var user in Storage.Instance.Users)
                     {
+                        initialPointsMap[user] = user.Points;
                         // 筛选当前用户中符合条件的竞猜
                         var unsettledGuesses = user.Guesses.Where(g => g.EventID == match.ID && !g.IsSettled).ToList();
 
                         foreach (var guess in unsettledGuesses)
                         {
+                            double initialPoints=user.Points;
                             if (guess.GuessWinner == match.Winner)
                             {
                                 correctUsers.Add(user); // 记录猜对的用户
@@ -42,6 +45,7 @@ public class TimeController : ApiController
                                 incorrectGuessCount++; // 记录总扣分
                             }
                             guess.IsSettled = true;    // 标记竞猜已结算
+                           
                         }
                     }
                     //平均分配给猜对的用户
@@ -51,6 +55,28 @@ public class TimeController : ApiController
                         {
                             correctUser.Points += pointsPerCorrectUser;
                         }
+                    }
+                    // 添加消息内容
+                    foreach (var user in Storage.Instance.Users)
+                    {
+                        double initialPoints = initialPointsMap[user];
+                        double pointsChange = user.Points - initialPoints; // 计算积分变化
+
+                        // 生成消息内容
+                        string messageContent = $"{match.Name} 比赛已结算，您" +
+                                                (user.Guesses.Any(g => g.EventID == match.ID && g.GuessWinner == match.Winner) ? "猜中了" : "猜错了") +
+                                                $"，积分变化：{pointsChange}";
+
+                        if (pointsChange == 0)
+                        {
+                            messageContent += "，由于没有人猜错，本次竞猜无积分流动。";
+                        }
+
+                        user.Messages.Add(new MessageData
+                        {
+                            Content = messageContent,
+                            Time = DateTime.Now,
+                        });
                     }
                 }
             }

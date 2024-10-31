@@ -82,6 +82,22 @@ namespace BackendDemo
                 Message = "登录成功！"
             });
         }
-        
+        [HttpGet]
+        public MessageList Messages([FromUri] string account)
+        {
+            var response = new MessageList();
+            var user = Storage.Instance.Users.FirstOrDefault(u => u.Account == account);
+            if (user != null)
+            {
+                response.Messages = user.Messages;
+            }
+            else
+            {
+                response.Messages = new List<MessageData>();
+            }
+
+            return response;
+        }
+
     }
 }
