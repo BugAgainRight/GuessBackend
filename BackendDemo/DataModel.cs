@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 [Serializable]
 public class RegisterData{
@@ -81,4 +82,30 @@ public class EventGuessData
 public class TimeData
 {
     public DateTime ServerTime;
+}
+
+[Serializable]
+public class PrizeList
+{
+    public List<Prize> Prizes = new();
+}
+
+[Serializable]
+public class Prize
+{
+    public string ID;
+    public string Name;
+    public int Stock;//剩余库存数量
+    public double PointsRequired;//兑换一件所需要的积分
+    public bool Redeemed;//true表示用户已兑换，false表示用户未兑换
+}
+
+[Serializable]
+public class PrizesRedeem
+{
+    public class StatusData
+    {
+        public bool Success;
+        public string Message;//积分是否足够，地址是否填写，兑换物是否已兑换，库存是否充足
+    }
 }
