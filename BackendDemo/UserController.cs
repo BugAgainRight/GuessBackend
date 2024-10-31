@@ -8,10 +8,6 @@ namespace BackendDemo
 {
     public class UserController : ApiController
     {
-        static UserController()
-        {
-            Storage.LoadFromFile();
-        }
         [HttpPost]
         [Route("api/user/register")]
         public IHttpActionResult Register([FromBody] RegisterData registerData)
