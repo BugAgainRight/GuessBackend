@@ -101,11 +101,8 @@ public class Prize
 }
 
 [Serializable]
-public class PrizesRedeem
+public class PrizeStatusData
 {
-    public class StatusData
-    {
-        public bool Success;
-        public string Message;//积分是否足够，地址是否填写，兑换物是否已兑换，库存是否充足
-    }
+    public bool Success;
+    public string Message;//积分是否足够，地址是否填写，兑换物是否已兑换，库存是否充足
 }
