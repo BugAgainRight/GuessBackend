@@ -28,6 +28,7 @@ namespace BackendDemo
             public double Points;
             public List<Guess> Guesses = new();
             public List<string> RedeemedPrizes = new();
+            public List<MessageData> Messages = new();
         }
 
         [Serializable]

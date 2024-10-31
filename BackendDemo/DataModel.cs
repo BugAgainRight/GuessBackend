@@ -106,3 +106,16 @@ public class PrizeStatusData
     public bool Success;
     public string Message;//积分是否足够，地址是否填写，兑换物是否已兑换，库存是否充足
 }
+
+[Serializable]
+public class MessageList
+{
+    public List<MessageData> Messages = new();
+}
+[Serializable]
+public class MessageData
+{
+    public string ID = Guid.NewGuid().ToString();
+    public string Content;
+    public DateTime Time;
+}
