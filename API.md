@@ -181,6 +181,42 @@ public class TimeData{
 }
 ```
 
+# GET /api/prizes/info
+
+获取兑换物列表
+
+参数：string account
+
+返回
+
+```C#
+public class PrizeList{
+    public List<Prize> Prizes = new();
+}
+public class Prize{
+    public string ID;
+    public string Name;
+    public int Stock;//剩余库存数量
+    public double PointsRequired;//兑换一件所需要的积分
+    public bool Redeemed;//true表示用户已兑换，false表示用户未兑换
+}
+```
+
+# GET /api/prizes/redeem
+
+申请兑换奖品
+
+参数：string account：用户名，string ID：想兑换的奖品ID
+
+返回
+
+```C#
+public class PrizeStatusData{
+    public bool Success;
+    public string Message;//积分是否足够，地址是否填写，兑换物是否已兑换，库存是否充足
+}
+```
+
 # GET /api/user/messages
 
 获取用户的全部消息通知
