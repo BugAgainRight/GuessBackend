@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System.Web.Http;
-
 namespace BackendDemo;
 
 
@@ -23,6 +22,7 @@ public class TimeController : ApiController
                 if (Storage.Instance.SimulatedTime >= match.EndGuessTime && match.Winner != -1)
                 {
                     List<Storage.User> correctUsers = new();
+                    List<Storage.User> msgSent = new();
                     int incorrectGuessCount = 0;
                     //遍历所有用户,计算竞猜结果
                     Dictionary<Storage.User, double> initialPointsMap = new();
@@ -30,23 +30,23 @@ public class TimeController : ApiController
                     {
                         initialPointsMap[user] = user.Points;
                         // 筛选当前用户中符合条件的竞猜
-                        var unsettledGuesses = user.Guesses.Where(g => g.EventID == match.ID && !g.IsSettled).ToList();
-
-                        foreach (var guess in unsettledGuesses)
+                        var unsettledGuess = user.Guesses.FirstOrDefault(g => g.EventID == match.ID && !g.IsSettled);
+                        if (unsettledGuess == null)
                         {
-                            double initialPoints=user.Points;
-                            if (guess.GuessWinner == match.Winner)
-                            {
-                                correctUsers.Add(user); // 记录猜对的用户
-                            }
-                            else
-                            {
-                                user.Points -= 1;      // 猜错的用户扣 1 分
-                                incorrectGuessCount++; // 记录总扣分
-                            }
-                            guess.IsSettled = true;    // 标记竞猜已结算
-                           
+                            continue;
                         }
+
+                        if (unsettledGuess.GuessWinner == match.Winner)
+                        {
+                            correctUsers.Add(user); // 记录猜对的用户
+                        }
+                        else
+                        {
+                            user.Points -= 1;      // 猜错的用户扣 1 分
+                            incorrectGuessCount++; // 记录总扣分
+                        }
+                        unsettledGuess.IsSettled = true;    // 标记竞猜已结算
+                        msgSent.Add(user);
                     }
                     //平均分配给猜对的用户
                     if (correctUsers.Count > 0 && incorrectGuessCount > 0) {
@@ -57,7 +57,7 @@ public class TimeController : ApiController
                         }
                     }
                     // 添加消息内容
-                    foreach (var user in Storage.Instance.Users)
+                    foreach (var user in msgSent)
                     {
                         double initialPoints = initialPointsMap[user];
                         double pointsChange = user.Points - initialPoints; // 计算积分变化
@@ -65,7 +65,7 @@ public class TimeController : ApiController
                         // 生成消息内容
                         string messageContent = $"{match.Name} 比赛已结算，您" +
                                                 (user.Guesses.Any(g => g.EventID == match.ID && g.GuessWinner == match.Winner) ? "猜中了" : "猜错了") +
-                                                $"，积分变化：{pointsChange}";
+                                                $"，积分变化：{pointsChange:F2}";
 
                         if (pointsChange == 0)
                         {
