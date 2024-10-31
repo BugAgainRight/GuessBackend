@@ -27,6 +27,7 @@ namespace BackendDemo
             public string Address;
             public double Points;
             public List<Guess> Guesses = new();
+            public List<string> RedeemedPrizes = new();
         }
 
         [Serializable]
@@ -64,7 +65,6 @@ namespace BackendDemo
             public string Name;
             public int Stock;
             public double PointsRequired;
-            public bool Redeemed;
         }
 
         [Serializable]
